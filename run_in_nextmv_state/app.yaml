@@ -1,0 +1,23 @@
+# This manifest holds the information the app needs to run on the Nextmv Cloud.
+type: python
+runtime: ghcr.io/nextmv-io/runtime/pyomo:latest
+python:
+  # All listed packages will get bundled with the app.
+  pip-requirements: requirements.txt
+
+# List all files/directories that should be included in the app. Globbing
+# (e.g.: configs/*.json) is supported.
+files:
+  - main.py
+  - diet.py
+
+configuration:
+  content:
+    format: "multi-file"
+    multi-file:
+      input:
+        path: "."
+      output:
+        solutions: "."
+        statistics: "statistics.json"
+        assets: "assets.json"
