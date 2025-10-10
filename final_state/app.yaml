@@ -25,10 +25,10 @@ configuration:
     items:
       - name: solver
         option_type: string
+        default: highs
         additional_attributes:
           values:
-            - cbc
-            - glpk
+            - scip
             - highs
         ui:
           control_type: select
