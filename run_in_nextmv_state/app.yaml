@@ -13,11 +13,11 @@ files:
 
 configuration:
   content:
-    format: "multi-file"
+    format: multi-file
     multi-file:
       input:
-        path: "inputs/"
+        path: inputs
       output:
-        solutions: "outputs/"
-        statistics: "statistics.json"
-        assets: "assets.json"
+        solutions: outputs
+        statistics: statistics.json
+        assets: assets.json
