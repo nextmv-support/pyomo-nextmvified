@@ -18,6 +18,6 @@ configuration:
       input:
         path: "inputs/"
       output:
-        solutions: "."
+        solutions: "outputs/"
         statistics: "statistics.json"
         assets: "assets.json"

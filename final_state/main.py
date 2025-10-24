@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import json
+import os
 
 import nextmv
 from diet import add_dairy_constraint, model
@@ -30,7 +31,8 @@ def main():
         print("Please install the solver or try a different solver.")
         return
     results = solver.solve(instance, tee=True)
-    output_file = "diet_solution.txt"
+    os.makedirs("outputs", exist_ok=True)
+    output_file = os.path.join("outputs", "diet_solution.txt")
 
     # Collect solution data for visualization
     selected_foods = []
