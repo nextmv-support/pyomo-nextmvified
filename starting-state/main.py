@@ -9,7 +9,7 @@ def main():
     """
     Main function to solve the diet optimization problem using Pyomo functions.
     """
-    instance = model.create_instance("diet.dat")
+    instance = model.create_instance("inputs/diet.dat")
     solver = SolverFactory("highs")
     if not solver.available():
         print(f"Error: highs solver is not available!")

@@ -16,7 +16,7 @@ configuration:
     format: "multi-file"
     multi-file:
       input:
-        path: "."
+        path: "inputs/"
       output:
         solutions: "."
         statistics: "statistics.json"

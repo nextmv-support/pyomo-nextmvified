@@ -3,6 +3,7 @@
 import json
 
 import nextmv
+import plotly.graph_objects as go
 from diet import add_dairy_constraint, model
 from nextmv import cloud
 from pyomo.environ import value
@@ -92,8 +93,83 @@ def main():
         )
         stats_f.write(json.dumps({"statistics": statistics.to_dict()}))
 
+    # Create Plotly visualization for selected foods
+    if results.solver.termination_condition == "optimal" and selected_foods:
+        # Create a subplot with secondary y-axis to properly show both metrics
+        from plotly.subplots import make_subplots
+
+        fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+        # Add bars for servings on primary y-axis
+        fig.add_trace(
+            go.Bar(
+                x=selected_foods,
+                y=food_servings,
+                name="Servings",
+                marker_color="lightblue",
+                text=[f"{s:.0f}" for s in food_servings],
+                textposition="auto",
+                offsetgroup=1,
+            ),
+            secondary_y=False,
+        )
+
+        # Add bars for total cost on secondary y-axis
+        fig.add_trace(
+            go.Bar(
+                x=selected_foods,
+                y=food_total_costs,
+                name="Total Cost ($)",
+                marker_color="lightcoral",
+                text=[f"${c:.2f}" for c in food_total_costs],
+                textposition="auto",
+                offsetgroup=2,
+            ),
+            secondary_y=True,
+        )
+
+        # Set y-axes titles
+        fig.update_yaxes(title_text="Number of Servings", secondary_y=False)
+        fig.update_yaxes(title_text="Total Cost ($)", secondary_y=True)
+
+        # Update layout
+        fig.update_layout(
+            title="Optimal Diet Solution: Selected Food Items",
+            xaxis_title="Food Items",
+            barmode="group",
+            legend=dict(x=0.7, y=1),
+            height=500,
+            margin=dict(l=50, r=50, t=80, b=100),
+        )
+
+        # Convert to JSON
+        fig_json = fig.to_json()
+
+        #  MODIFIED - Create Nextmv assets
+        assets = []
+        assets.append(
+            nextmv.Asset(
+                name="Diet Optimization Results",
+                content_type="json",
+                visual=nextmv.Visual(
+                    visual_schema=nextmv.VisualSchema.PLOTLY,
+                    visual_type="custom-tab",
+                    label="Food Selection",
+                ),
+                content=[json.loads(fig_json)],
+            )
+        )
+
+        # Write assets to file
+        assets_file = "assets.json"
+        with open(assets_file, "w") as assets_f:
+            assets_dict = {"assets": [asset.to_dict() for asset in assets]}
+            assets_f.write(json.dumps(assets_dict, indent=2))
+        print(f"Assets written to {assets_file}")
+
     print(f"Results written to {output_file}")
     print(f"Statistics written to {statistics_file}")
+    print(f"Assets written to {assets_file}")
 
 
 if __name__ == "__main__":
