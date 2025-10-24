@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import os
 
 from diet import model
 from pyomo.environ import value
@@ -19,7 +20,8 @@ def main():
         return
     results = solver.solve(instance, tee=True)
 
-    output_file = "diet_solution.txt"
+    os.makedirs("outputs", exist_ok=True)
+    output_file = "outputs/diet_solution.txt"
     with open(output_file, "w") as f:
         if results.solver.termination_condition == "optimal":
             f.write("=" * 50 + "\n")
