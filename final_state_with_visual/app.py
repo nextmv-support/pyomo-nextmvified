@@ -11,7 +11,7 @@ local_app = local.Application(
 # Use options to choose an action when running this script.
 options = nextmv.Options(
     nextmv.Option(name="action", option_type=str),
-    nextmv.Option(name="input_dir", option_type=str, default="./sample/"),
+    nextmv.Option(name="input_dir", option_type=str, default="./inputs/"),
 )
 
 # Initialize the cloud application.
