@@ -15,7 +15,7 @@ def main():
     instance = model.create_instance("inputs/diet.dat")
     solver = SolverFactory("highs")
     if not solver.available():
-        print(f"Error: highs solver is not available!")
+        print("Error: highs solver is not available!")
         print("Please install the solver or try a different solver.")
         return
     results = solver.solve(instance, tee=True)
