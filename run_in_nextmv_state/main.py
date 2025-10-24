@@ -21,7 +21,7 @@ def main():
     results = solver.solve(instance, tee=True)
 
     os.makedirs("outputs", exist_ok=True)
-    output_file = "outputs/diet_solution.txt"
+    output_file = os.path.join("outputs", "diet_solution.txt")
     with open(output_file, "w") as f:
         if results.solver.termination_condition == "optimal":
             f.write("=" * 50 + "\n")
