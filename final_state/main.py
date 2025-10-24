@@ -32,7 +32,7 @@ def main():
         return
     results = solver.solve(instance, tee=True)
     os.makedirs("outputs", exist_ok=True)
-    output_file = "outputs/diet_solution.txt"
+    output_file = os.path.join("outputs", "diet_solution.txt")
 
     # Collect solution data for visualization
     selected_foods = []
